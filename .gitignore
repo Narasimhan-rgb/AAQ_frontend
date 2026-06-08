@@ -23,11 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 # React frontend
-aaq-frontend/node_modules/
-aaq-frontend/dist/
-aaq-frontend/.env
+.env
+node_modules/
+dist/
+dist-ssr/
 
-# Wrong root npm files
-/node_modules/
-/package.json
-/package-lock.json.env 
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
