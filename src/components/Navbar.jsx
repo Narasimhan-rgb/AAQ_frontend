@@ -12,6 +12,7 @@ function Navbar() {
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/datasets">Datasets</NavLink>
         <NavLink to="/benchmarks">Benchmarks</NavLink>
+        <NavLink to="/reports">Reports</NavLink>
         <NavLink to="/system">System Status</NavLink>
       </nav>
     </header>

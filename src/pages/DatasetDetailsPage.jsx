@@ -116,6 +116,9 @@ function DatasetDetailsPage() {
   <Link className="link-button" to={`/datasets/${id}/benchmarks`}>
   Benchmarks
 </Link>
+<Link className="link-button" to={`/datasets/${id}/reports`}>
+  Recommendation + Reports
+</Link>
 
   <button onClick={loadDatasetDetails}>Refresh</button>
 

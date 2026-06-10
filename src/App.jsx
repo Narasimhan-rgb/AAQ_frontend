@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage";
 import DatasetDetailsPage from "./pages/DatasetDetailsPage";
 import DatasetsPage from "./pages/DatasetsPage";
 import QuantumAnalysisPage from "./pages/QuantumAnalysisPage";
+import RecommendationReportsPage from "./pages/RecommendationReportsPage";
 import SystemStatusPage from "./pages/SystemStatusPage";
 
 function App() {
@@ -24,7 +25,12 @@ function App() {
             path="/datasets/:id/benchmarks"
             element={<BenchmarkResultsPage />}
           />
+          <Route
+            path="/datasets/:id/reports"
+            element={<RecommendationReportsPage />}
+          />
           <Route path="/benchmarks" element={<BenchmarkResultsPage />} />
+          <Route path="/reports" element={<RecommendationReportsPage />} />
           <Route path="/system" element={<SystemStatusPage />} />
         </Routes>
       </main>
