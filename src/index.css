@@ -318,3 +318,39 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.action-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.link-button {
+  display: inline-block;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: #1e293b;
+  color: #38bdf8;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  background: #334155;
+}
+
+.page-message.error {
+  border-color: #ef4444;
+}
+
+.section-card table td {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section-card table td:hover {
+  white-space: normal;
+  overflow: visible;
+}

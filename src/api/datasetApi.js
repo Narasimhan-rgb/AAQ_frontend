@@ -5,6 +5,21 @@ export async function getAllDatasets() {
   return response.data;
 }
 
+export async function getDatasetById(datasetId) {
+  const response = await apiClient.get(`/dataset/${datasetId}`);
+  return response.data;
+}
+
+export async function previewDataset(datasetId) {
+  const response = await apiClient.get(`/dataset/${datasetId}/preview`);
+  return response.data;
+}
+
+export async function analyzeDataset(datasetId) {
+  const response = await apiClient.post(`/dataset/${datasetId}/analyze`);
+  return response.data;
+}
+
 export async function uploadDataset(file) {
   const formData = new FormData();
   formData.append("file", file);

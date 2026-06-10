@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   deleteDataset,
@@ -186,12 +187,21 @@ function DatasetsPage() {
                     <td>{dataset.selectedSortColumn ?? "N/A"}</td>
                     <td>{formatScore(dataset.finalScore)}</td>
                     <td>
-                      <button
-                        className="danger-button"
-                        onClick={() => handleDelete(dataset.id)}
-                      >
-                        Delete
-                      </button>
+                      <div className="action-group">
+                        <Link
+                          className="link-button"
+                          to={`/datasets/${dataset.id}`}
+                        >
+                          View
+                        </Link>
+
+                        <button
+                          className="danger-button"
+                          onClick={() => handleDelete(dataset.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
