@@ -105,17 +105,21 @@ function DatasetDetailsPage() {
           <p>View metadata, preview rows, and run Python profiling analysis.</p>
         </div>
 
-        <div className="action-group">
-          <Link className="link-button" to="/datasets">
-            Back
-          </Link>
+  <div className="action-group">
+  <Link className="link-button" to="/datasets">
+    Back
+  </Link>
 
-          <button onClick={loadDatasetDetails}>Refresh</button>
+  <Link className="link-button" to={`/datasets/${id}/quantum`}>
+    Quantum Analysis
+  </Link>
 
-          <button onClick={handleAnalyze} disabled={analyzing}>
-            {analyzing ? "Analyzing..." : "Analyze Dataset"}
-          </button>
-        </div>
+  <button onClick={loadDatasetDetails}>Refresh</button>
+
+  <button onClick={handleAnalyze} disabled={analyzing}>
+    {analyzing ? "Analyzing..." : "Analyze Dataset"}
+  </button>
+</div>
       </div>
 
       {successMessage && (

@@ -354,3 +354,57 @@ button:disabled {
   white-space: normal;
   overflow: visible;
 }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.form-grid input {
+  border: 1px solid #1e293b;
+  background: #020617;
+  color: #e5e7eb;
+  padding: 11px 12px;
+  border-radius: 10px;
+  outline: none;
+}
+
+.form-grid input:focus {
+  border-color: #38bdf8;
+}
+
+.quantum-actions {
+  margin-top: 20px;
+}
+
+.code-block {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 18px;
+  overflow-x: auto;
+  white-space: pre;
+  color: #dbeafe;
+  max-height: 420px;
+}
+
+.selected-row td {
+  background: rgba(56, 189, 248, 0.16);
+  color: #e0f2fe;
+  font-weight: 700;
+}
+
+h4 {
+  color: #38bdf8;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

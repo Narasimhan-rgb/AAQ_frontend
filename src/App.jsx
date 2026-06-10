@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import DashboardPage from "./pages/DashboardPage";
 import DatasetDetailsPage from "./pages/DatasetDetailsPage";
 import DatasetsPage from "./pages/DatasetsPage";
+import QuantumAnalysisPage from "./pages/QuantumAnalysisPage";
 import SystemStatusPage from "./pages/SystemStatusPage";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/datasets" element={<DatasetsPage />} />
           <Route path="/datasets/:id" element={<DatasetDetailsPage />} />
+          <Route path="/datasets/:id/quantum" element={<QuantumAnalysisPage />} />
           <Route path="/system" element={<SystemStatusPage />} />
         </Routes>
       </main>
