@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import BenchmarkResultsPage from "./pages/BenchmarkResultsPage";
 import DashboardPage from "./pages/DashboardPage";
 import DatasetDetailsPage from "./pages/DatasetDetailsPage";
 import DatasetsPage from "./pages/DatasetsPage";
@@ -19,6 +20,11 @@ function App() {
           <Route path="/datasets" element={<DatasetsPage />} />
           <Route path="/datasets/:id" element={<DatasetDetailsPage />} />
           <Route path="/datasets/:id/quantum" element={<QuantumAnalysisPage />} />
+          <Route
+            path="/datasets/:id/benchmarks"
+            element={<BenchmarkResultsPage />}
+          />
+          <Route path="/benchmarks" element={<BenchmarkResultsPage />} />
           <Route path="/system" element={<SystemStatusPage />} />
         </Routes>
       </main>
