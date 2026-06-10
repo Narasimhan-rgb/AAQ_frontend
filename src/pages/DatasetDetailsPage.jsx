@@ -259,3 +259,4 @@ function formatPercent(value) {
 }
 
 export default DatasetDetailsPage;
+
