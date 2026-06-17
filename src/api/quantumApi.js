@@ -2,7 +2,7 @@ import axios from "axios";
 
 const pythonApiClient = axios.create({
   baseURL: import.meta.env.VITE_PYTHON_API_BASE_URL || "http://localhost:8000",
-  timeout: 60000,
+  timeout: 600000, // 10 minutes for large simulations
   headers: {
     "Content-Type": "application/json",
   },

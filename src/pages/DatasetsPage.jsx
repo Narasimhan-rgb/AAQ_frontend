@@ -123,26 +123,35 @@ function DatasetsPage() {
         <button onClick={loadDatasets}>Refresh</button>
       </div>
 
-      <div className="section-card">
-        <h3>Upload Dataset</h3>
+      <div className="section-card upload-zone" style={{ border: '2px dashed rgba(255, 255, 255, 0.8)', textAlign: 'center', padding: '60px 20px', cursor: 'pointer', position: 'relative' }}>
+        <h3 style={{ fontSize: '28px', color: '#1e293b' }}>Drop Dataset Here</h3>
+        <p className="muted-text" style={{ fontSize: '16px' }}>
+          Supported files: CSV and XLSX. Backend stores file metadata and selected sort column.
+        </p>
 
-        <form className="upload-form" onSubmit={handleUpload}>
+        <form onSubmit={handleUpload}>
           <input
             id="dataset-file"
             type="file"
             accept=".csv,.xlsx"
             onChange={(event) => setSelectedFile(event.target.files[0])}
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
           />
 
-          <button type="submit" disabled={uploading}>
+          {selectedFile && (
+            <p style={{ color: '#0284c7', fontWeight: 'bold', fontSize: '18px', margin: '20px 0' }}>
+              Selected: {selectedFile.name}
+            </p>
+          )}
+
+          <button 
+            type="submit" 
+            disabled={uploading || !selectedFile}
+            style={{ marginTop: '20px', padding: '14px 32px', fontSize: '18px', zIndex: 10, position: 'relative' }}
+          >
             {uploading ? "Uploading..." : "Upload Dataset"}
           </button>
         </form>
-
-        <p className="muted-text">
-          Supported files: CSV and XLSX. Backend stores file metadata and
-          selected sort column.
-        </p>
       </div>
 
       {successMessage && (

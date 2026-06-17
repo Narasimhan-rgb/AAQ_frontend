@@ -24,13 +24,23 @@ export async function uploadDataset(file) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await apiClient.post("/dataset/upload", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+  const token = localStorage.getItem("aaq_token");
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+
+  const response = await fetch(`${API_BASE_URL}/dataset/upload`, {
+    method: "POST",
+    body: formData,
+    // Letting the browser automatically set the Content-Type with the correct boundary
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
 
-  return response.data;
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Upload failed");
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 export async function deleteDataset(datasetId) {

@@ -5,7 +5,7 @@ const API_BASE_URL =
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000,
+  timeout: 600000, // 10 minutes for large datasets
   headers: {
     "Content-Type": "application/json",
   },

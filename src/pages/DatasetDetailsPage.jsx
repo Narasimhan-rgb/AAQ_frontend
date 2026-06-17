@@ -6,6 +6,7 @@ import {
   getDatasetById,
   previewDataset,
 } from "../api/datasetApi";
+import { startSortingJob, executeSortingJob } from "../api/jobApi";
 
 function DatasetDetailsPage() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ function DatasetDetailsPage() {
   const [previewError, setPreviewError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
+  const [startingJob, setStartingJob] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   async function loadDatasetDetails() {
@@ -77,6 +79,39 @@ function DatasetDetailsPage() {
     }
   }
 
+  async function handleStartJob() {
+    try {
+      setStartingJob(true);
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      const startResponse = await startSortingJob({
+        datasetId: id,
+        requestedAlgorithm: "ADAPTIVE_AMPLITUDE_QUICKSORT",
+      });
+      const createdJob = startResponse?.results || startResponse;
+      
+      if (!createdJob || !createdJob.id) {
+        throw new Error("Backend did not return a valid job ID");
+      }
+
+      await executeSortingJob({ jobId: createdJob.id });
+
+      setSuccessMessage("Sorting Job successfully completed! Benchmarks are ready.");
+
+      await loadDatasetDetails();
+    } catch (error) {
+      setErrorMessage(
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          error?.message ||
+          "Failed to start sorting job."
+      );
+    } finally {
+      setStartingJob(false);
+    }
+  }
+
   useEffect(() => {
     loadDatasetDetails();
   }, [id]);
@@ -122,8 +157,12 @@ function DatasetDetailsPage() {
 
   <button onClick={loadDatasetDetails}>Refresh</button>
 
-  <button onClick={handleAnalyze} disabled={analyzing}>
+  <button onClick={handleAnalyze} disabled={analyzing || startingJob}>
     {analyzing ? "Analyzing..." : "Analyze Dataset"}
+  </button>
+  
+  <button onClick={handleStartJob} disabled={analyzing || startingJob}>
+    {startingJob ? "Starting Job..." : "Run Sorting Job"}
   </button>
 </div>
       </div>

@@ -350,7 +350,9 @@ function extractResults(response) {
 }
 
 function extractSingleResult(response) {
-  return response?.results || response || null;
+  if (!response) return null;
+  if (response.results !== undefined) return response.results;
+  return response;
 }
 
 function formatNumber(value) {

@@ -26,7 +26,7 @@ function RecommendationReportsPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  async function handleGetRecommendation(targetDatasetId = datasetId) {
+  async function handleLoadSummary(targetDatasetId = datasetId) {
     if (!targetDatasetId) {
       setErrorMessage("Enter dataset ID.");
       return;
@@ -44,15 +44,15 @@ function RecommendationReportsPage() {
       setRecommendation(summary?.latestRecommendation || null);
 
       if (summary?.latestRecommendation) {
-        setSuccessMessage("Recommendation loaded successfully.");
+        setSuccessMessage("Recommendation summary loaded successfully.");
       } else {
         setErrorMessage(
-          "No recommendation found for this dataset. Run sorting/benchmark first."
+          "No recommendation found for this dataset in the summary. Generate one first."
         );
       }
     } catch (error) {
       setErrorMessage(
-        getErrorMessage(error, "Failed to load recommendation.")
+        getErrorMessage(error, "Failed to load recommendation summary.")
       );
     } finally {
       setLoadingRecommendation(false);
@@ -71,21 +71,22 @@ function RecommendationReportsPage() {
       setSuccessMessage("");
 
       const response = await generateRecommendation(datasetId);
-      const summary = extractSingleResult(response);
+      const result = extractSingleResult(response);
 
-      setReportSummary(summary);
-      setRecommendation(summary?.latestRecommendation || null);
+      setRecommendation(result);
 
-      if (summary?.latestRecommendation) {
-        setSuccessMessage("Recommendation loaded successfully.");
+      if (result) {
+        setSuccessMessage("Recommendation generated successfully.");
+        // After generating, reload the summary
+        await handleLoadSummary(datasetId);
       } else {
         setErrorMessage(
-          "No recommendation found yet. Run sorting/benchmark first."
+          "Failed to generate recommendation."
         );
       }
     } catch (error) {
       setErrorMessage(
-        getErrorMessage(error, "Failed to generate recommendation.")
+        getErrorMessage(error, "Failed to generate recommendation. Run Analyze Dataset first.")
       );
     } finally {
       setGeneratingRecommendation(false);
@@ -118,7 +119,7 @@ function RecommendationReportsPage() {
   useEffect(() => {
     if (id) {
       setDatasetId(id);
-      handleGetRecommendation(id);
+      handleLoadSummary(id);
     }
   }, [id]);
 
@@ -165,17 +166,17 @@ function RecommendationReportsPage() {
 
         <div className="action-group module-actions">
           <button
-            onClick={() => handleGetRecommendation()}
-            disabled={loadingRecommendation}
-          >
-            {loadingRecommendation ? "Loading..." : "Get Recommendation"}
-          </button>
-
-          <button
             onClick={handleGenerateRecommendation}
             disabled={generatingRecommendation}
           >
-            {generatingRecommendation
+            {generatingRecommendation ? "Generating..." : "Generate Recommendation"}
+          </button>
+
+          <button
+            onClick={() => handleLoadSummary()}
+            disabled={loadingRecommendation}
+          >
+            {loadingRecommendation
               ? "Loading..."
               : "Load Recommendation Summary"}
           </button>
@@ -456,11 +457,9 @@ function Detail({ label, value }) {
 }
 
 function extractSingleResult(response) {
-  if (response?.results) {
-    return response.results;
-  }
-
-  return response || null;
+  if (!response) return null;
+  if (response.results !== undefined) return response.results;
+  return response;
 }
 
 function formatNumber(value) {
