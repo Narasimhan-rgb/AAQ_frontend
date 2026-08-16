@@ -1,19 +1,67 @@
 # AAQ Frontend
 
-> React dashboard for the Adaptive Amplitude QuickSort research and benchmarking platform.
+> React/Vite dashboard for the Adaptive Amplitude QuickSort research, live-execution, benchmarking, and Paper V0.4 reproducibility platform.
 
 ## Project purpose
 
-This frontend visualises the AAQ research workflow: dataset uploads, dataset profiling, benchmark results, algorithm comparison, recommendations, and system status.
+This frontend presents the complete AAQ research workflow: dataset management, profiling results, live AAQ execution, benchmark comparison, quantum-inspired metrics, recommendations, reports, and measured paper-result reproduction.
 
-## Main features
+## Current integrated project status
 
-- Research dashboard for AAQ metrics
-- Dataset upload and management UI
-- Dataset preview and profile views
-- Benchmark-result comparison screens
-- Recommendation and report pages
-- System/service status screens
+The integrated frontend now includes:
+
+- dataset upload and management views
+- dataset metadata and preview pages
+- Python profiling result display
+- Quantum Analysis navigation and AAQ metric presentation
+- asynchronous sorting-job execution
+- live AAQ progress monitoring
+- live partition-imbalance graph
+- amplitude-state/convergence graph
+- throughput graph
+- memory graph
+- comparison, swap, partition and recursion metrics
+- completed-run metrics retained on screen for inspection
+- benchmark-result pages
+- recommendation/report navigation
+- Paper V0.4 reference mode
+- Live JMH Reproduction mode
+- measured one-million-record comparison table
+- paper figure display generated from the JMH analysis pipeline
+
+## Paper benchmark / reproducibility
+
+The research-result screen is based on the controlled JMH matrix:
+
+```text
+6 algorithms
+15 distributions
+5 input sizes
+30 independent seeds
+= 13,500 measured benchmark rows
+```
+
+The frontend deliberately separates two workflows:
+
+```text
+Normal Dataset workflow
+→ upload / analyze / run AAQ / inspect live graphs
+
+Paper V0.4 workflow
+→ analyze paper-jmh.csv / reproduce measured paper tables and figures
+```
+
+This prevents normal application elapsed time from being confused with controlled JMH benchmark results.
+
+## Data used / source
+
+The project uses controlled synthetic workloads together with public/open-source data for realistic testing.
+
+**Published dataset source:**
+
+- Kaggle — [Quantum Amplititude Sort Testing Data](https://www.kaggle.com/datasets/narasimhandasarathy/quantum-amplititude-sort-testing-data/data)
+
+Synthetic workloads cover random, skewed/Gaussian, Zipf-like, nearly sorted, reverse sorted, repeated-value, bounded-integer, streaming, high-entropy and other structured sorting patterns. Open Library / Internet Archive catalogue records are also used as real-world source material where applicable.
 
 ## Technology stack
 
@@ -22,8 +70,9 @@ This frontend visualises the AAQ research workflow: dataset uploads, dataset pro
 | Frontend | React, Vite |
 | HTTP client | Axios |
 | Routing | React Router |
+| Charts | Recharts |
 | Styling | CSS |
-| Backend integration | AAQ Java backend + Python analysis service |
+| Backend integration | Java AAQ backend + Python analysis service |
 
 ## Local setup
 
@@ -40,30 +89,41 @@ Open the Vite URL shown in the terminal, usually:
 http://localhost:5173
 ```
 
-## Product flow
+For the complete integrated workflow, also run:
 
 ```text
-User dashboard
-→ dataset upload
-→ backend storage
-→ Python dataset analysis
-→ AAQ benchmark execution
-→ results and recommendation screens
+Java backend  : http://localhost:8080
+Python service: http://127.0.0.1:8000
+Frontend      : http://localhost:5173
+```
+
+## Product / research flow
+
+```text
+User uploads dataset
+        ↓
+Dataset profile and pattern analysis
+        ↓
+Run AAQ sorting job
+        ↓
+Live progress + partition/amplitude graphs
+        ↓
+Benchmark and recommendation views
+        ↓
+Reports
+
+Paper V0.4
+        ↓
+Reference artifacts OR live JMH reproduction
+        ↓
+Measured tables and figures from paper-jmh.csv
 ```
 
 ## Related repositories
 
-- `AAQalgorithim` — main AAQ backend/research repository
-- `python_services-` — dataset-analysis and profiling service
+- `AAQalgorithim` — Java backend, AAQ algorithm and JMH benchmark engine
+- `python_services-` — dataset-analysis, profiling and paper-reproduction service
 
-## MS portfolio value
+## Progress documentation
 
-This project shows full-stack presentation of an algorithmic research system. It supports my profile in algorithms, research engineering, and AI/data systems.
-
-## Roadmap
-
-- Rename repository to `aaq-frontend`
-- Add screenshots or GIF demo
-- Add API environment configuration guide
-- Add deployment link after frontend is hosted
-- Add sample data walkthrough
+See [`PROJECT_PROGRESS.md`](PROJECT_PROGRESS.md) for the latest frontend and cross-repository integration status.
