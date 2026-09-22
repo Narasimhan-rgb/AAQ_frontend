@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
+import PaperResultsPage from "./pages/PaperResultsPage";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import BenchmarkResultsPage from "./pages/BenchmarkResultsPage";
@@ -47,6 +48,8 @@ const AppContent = () => {
           <Route path="/datasets/:id/reports" element={<ProtectedRoute><RecommendationReportsPage /></ProtectedRoute>} />
           <Route path="/benchmarks" element={<ProtectedRoute><BenchmarkResultsPage /></ProtectedRoute>} />
           <Route path="/reports" element={<ProtectedRoute><RecommendationReportsPage /></ProtectedRoute>} />
+          <Route path="/paper" element={<ProtectedRoute><PaperResultsPage /></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to="/datasets" replace />} />
           <Route path="/system" element={<ProtectedRoute><SystemStatusPage /></ProtectedRoute>} />
         </Routes>
       </main>

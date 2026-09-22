@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
 const AuthContext = createContext();
+const AUTH_BASE = (import.meta.env.VITE_PYTHON_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     // 2. Check Supabase (GitHub Auth)
+    if (!supabase) { setUser(null); setLoading(false); return; }
     const { data: { session } } = await supabase.auth.getSession();
     setUser(session?.user ?? null);
     setLoading(false);
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
 
     // Listen to Supabase auth changes (for GitHub flow)
+    if (!supabase) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       // Only set user from Supabase if we aren't logged in via email
       if (!localStorage.getItem('aaq_token')) {
@@ -41,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     signUp: async (data) => {
       try {
-        const response = await fetch('http://localhost:8000/api/auth/signup', {
+        const response = await fetch(`${AUTH_BASE}/api/auth/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: data.email, password: data.password })
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     },
     signIn: async (data) => {
       try {
-        const response = await fetch('http://localhost:8000/api/auth/login', {
+        const response = await fetch(`${AUTH_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: data.email, password: data.password })
@@ -79,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         return { error: { message: 'Network error connecting to backend.' } };
       }
     },
-    signInWithGithub: () => supabase.auth.signInWithOAuth({ 
+    signInWithGithub: () => !supabase ? Promise.resolve({ error: { message: "GitHub sign-in is not configured. Use email sign-in." } }) : supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
         redirectTo: window.location.origin + '/datasets'
@@ -88,7 +91,7 @@ export const AuthProvider = ({ children }) => {
     signOut: async () => {
       localStorage.removeItem('aaq_token');
       localStorage.removeItem('aaq_user_email');
-      await supabase.auth.signOut();
+      if (supabase) await supabase.auth.signOut();
       setUser(null);
     },
     user,
