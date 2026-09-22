@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const NAV_LINKS = [
+  { to: "/paper", label: "Paper results" },
   { to: "/dashboard", label: "Dashboard" },
   { to: "/datasets",  label: "Datasets"  },
   { to: "/benchmarks",label: "Benchmarks"},
